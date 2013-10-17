@@ -8,7 +8,7 @@ import urllib2
 import urllib
 
 CLIENTNAME = "psycho"
-REALM      = "http://192.168.33.33:9080"
+REALM      = "http://192.168.1.1:9082"
 
 class Catalog(db.Model):
   uri = CharField()
@@ -27,7 +27,7 @@ def fetch_by_uri(uri):
 
 def register():
 
-   catalog_uri    = "http://192.168.33.10:5000"
+   catalog_uri    = "http://192.168.1.1:9080"
  
    #check if already registered with the catalog
    if fetch_by_uri(catalog_uri) is not None:

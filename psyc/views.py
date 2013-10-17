@@ -28,12 +28,12 @@ aweekago  = datetime.datetime.fromtimestamp(ts-(7*24*60*60)).strftime('%Y/%m/%d:
 adayago   = datetime.datetime.fromtimestamp(ts-(24*60*60)).strftime('%Y/%m/%d:%H:%M:%S') 
 anhourago = datetime.datetime.fromtimestamp(ts-(60*60)).strftime('%Y/%m/%d:%H:%M:%S')
 
-fakeurls = ["http://www.stackoverflow.com", "http://delicious.com", "http://www.python.org", "http://www.amazon.com", "http://www.bing.com", "http://twitter.bootstrap.com", "http://www.littletechtips.com", "http://forums.devshed.com", "http://support.microsoft.com", "http://howstuffworks.com", "http://en.wikipedia.org"]
+fakeurls_data = ["http://www.stackoverflow.com", "http://delicious.com", "http://www.python.org", "http://www.amazon.com", "http://www.bing.com", "http://twitter.bootstrap.com", "http://www.littletechtips.com", "http://forums.devshed.com", "http://support.microsoft.com", "http://howstuffworks.com", "http://en.wikipedia.org"]
     
 queries = [ 
-            "select ts, url from urls where ts < '%s' and ts > '%s'" % (aweekago,now),
-            "select ts, url from urls where ts < '%s' and ts > '%s'" % (adayago,now),
-            "select ts, url from urls where ts < '%s' and ts > '%s'" % (anhourago,now)
+            "select ts, url from urls_data where ts < '%s' and ts > '%s'" % (aweekago,now),
+            "select ts, url from urls_data where ts < '%s' and ts > '%s'" % (adayago,now),
+            "select ts, url from urls_data where ts < '%s' and ts > '%s'" % (anhourago,now)
           ]
            
 @app.route('/')
@@ -57,7 +57,7 @@ def register():
    print "successfully logged in the user"
    
    #create the users resource
-   resource = Resource(user=user, catalog_uri=catalog_uri, owner=owner, resource_name='urls')
+   resource = Resource(user=user, catalog_uri=catalog_uri, owner=owner, resource_name='urls_data')
    
    print "created the resource!!"
    
@@ -68,7 +68,7 @@ def register():
    
    if cat is not None:
         print "got the resource uri from the catalog!" 
-        data = experimenter.fetch_resource(cat, owner, 'urls')
+        data = experimenter.fetch_resource(cat, owner, 'urls_data')
         print "data is %s" % data
         
         res = json.loads(data)
@@ -93,21 +93,21 @@ def experiment():
             "id": "%d_1" % user.id, 
             "link": "question one", 
             "title": "last 7 days  worth of browsing", 
-            "description": "On the left hand side is a selection of some of the urls that you visited in the last 7 days...the question is.....",
+            "description": "On the left hand side is a selection of some of the urls_data that you visited in the last 7 days...the question is.....",
             "query": queries[0]
         },
         {
             "id": "%d_2" % user.id,
             "link": "question two", 
             "title": "last 24 hour's browsing", 
-            "description":"On the left hand side is a selection of some of the urls that you visited in the last 24 HOURS...the question is.....",
+            "description":"On the left hand side is a selection of some of the urls_data that you visited in the last 24 HOURS...the question is.....",
             "query": queries[1]
         },
         {   
             "id": "%d_3" % user.id,
             "link": "question three", 
             "title": "last hour's worth of browsing", 
-            "description": "On the left hand side is a selection of some of the urls that you visited in THE LAST HOUR!...the question is.....",
+            "description": "On the left hand side is a selection of some of the urls_data that you visited in THE LAST HOUR!...the question is.....",
             "query": queries[2]
         }
     ]
@@ -137,7 +137,7 @@ def experiment():
 
 def _mash(results):
     
-    #first, add in an 'auth' field to differentiate between authentic / fake urls
+    #first, add in an 'auth' field to differentiate between authentic / fake urls_data
     for key in results:
         values = results[key]
         newlist = []
@@ -149,7 +149,7 @@ def _mash(results):
             if random.random() >= 0.6:
                 ts = int(datetime.datetime.strptime(data['ts'], '%Y/%m/%d:%H:%M:%S').strftime("%s"))
                 ts += 60 * 2
-                newlist.append({'ts' : datetime.datetime.fromtimestamp(ts).strftime('%Y/%m/%d:%H:%M:%S'), 'url':  fakeurls[random.randint(0,len(fakeurls)-1)], 'auth':False})
+                newlist.append({'ts' : datetime.datetime.fromtimestamp(ts).strftime('%Y/%m/%d:%H:%M:%S'), 'url':  fakeurls_data[random.randint(0,len(fakeurls_data)-1)], 'auth':False})
                 print "%s %s" %  (data['ts'],  datetime.datetime.fromtimestamp(ts).strftime('%Y/%m/%d:%H:%M:%S'))
             
         results[key] = json.dumps(newlist)

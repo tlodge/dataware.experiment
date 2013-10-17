@@ -10,7 +10,7 @@ import psyc.models.execution as execution
 
 from gevent.wsgi import WSGIServer
 from flask_peewee.admin import Admin
-port = 9080
+port = 9082
 
 auth.User.create_table(fail_silently=True)
 

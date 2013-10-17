@@ -7,7 +7,7 @@ from psyc.models.processor import Processor
 import psyc.models.execution as execution
 from psyc.auth import auth
 
-REALM  = "http://192.168.33.33:9080"
+REALM  = "http://192.168.1.1:9082"
 
 def fetch_resource(catalog, owner, resource):
     url = "%s/client_list_resources?client_id=%s&client_uri=%s&resource_owner=%s&resource_name=%s" % (catalog.uri, catalog.client_id, catalog.redirect_uri, owner, resource) 

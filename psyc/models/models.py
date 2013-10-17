@@ -6,7 +6,7 @@ from psyc.database import db
 from peewee import *
 
 class Url(db.Model):
-  user = ForeignKeyField(auth.User, related_name='urls')
+  user = ForeignKeyField(auth.User, related_name='urls_data')
   ts = IntegerField()
   macaddr = TextField()
   ipaddr = TextField()
