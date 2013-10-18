@@ -19,3 +19,17 @@ def fetch_by_user(user):
     return resource 
   except Resource.DoesNotExist:
     return None  
+
+def deleteall():
+    resources = Resource.select()
+    
+    try:
+        for resource in resources:
+            print resource
+            resource.delete_instance(recursive=True)
+    except Exception, e:
+        print e
+        return
+        
+    print "done@!"
+    

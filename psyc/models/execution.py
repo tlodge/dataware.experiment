@@ -56,3 +56,15 @@ def fetch_latest_results_by_user(user):
         return None  
 
     return None
+
+
+def deleteall():
+    executions = Execution.select()
+    
+    try:
+        for execution in executions:
+            print execution
+            execution.delete_instance(recursive=True)
+    except Exception, e:
+        print e
+        return

@@ -191,6 +191,23 @@ def logout():
     user = auth.logout()
     return redirect('/')
 
+@app.route('/reset')
+def reset():
+    resource.deleteall()
+    execution.deleteall()
+    
+    users = auth.User.select().where(auth.User.admin==False)
+    try:
+        for user in users:
+            print user
+            user.delete_instance(recursive=True)
+    except Exception, e:
+        print e
+                    
+    return json.dumps({'type':'done', 'data':'thanks'})
+    #processor.removeall()
+    #execution.removeall()
+
 @app.route('/serialize')
 def serialize():
     user = auth.get_logged_in_user()    
